@@ -14,7 +14,9 @@ public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidat
             .ToList();
 
         if (failures.Any())
+        {
             throw new ValidationException(failures);
+        }
 
         return await next();
     }

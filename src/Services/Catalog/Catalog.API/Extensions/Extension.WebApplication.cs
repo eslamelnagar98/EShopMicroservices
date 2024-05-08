@@ -1,10 +1,14 @@
-﻿using System.Reflection;
-namespace Catalog.API.Configurations;
+﻿namespace Catalog.API.Extensions;
 public static partial class Extension
 {
     public static WebApplication AddMiddlewares(this WebApplication app)
     {
         app.MapCarter();
+        app.UseExceptionHandler(options => { })
+           .UseHealthChecks("/health", new HealthCheckOptions
+           {
+               ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+           });
         return app;
     }
 

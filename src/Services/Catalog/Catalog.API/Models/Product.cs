@@ -1,15 +1,24 @@
 ﻿namespace Catalog.API.Models;
 public sealed class Product
 {
-    public Guid Id { get; private set; }
-    public string Name { get; private set; } = default!;
-    public List<string> Category { get; private set; } = new();
-    public string Description { get; private set; } = default!;
-    public string ImageFile { get; private set; } = default!;
-    public decimal Price { get; private set; }
-
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public List<string> Category { get; set; } = new();
+    public string Description { get; set; } = string.Empty;
+    public string ImageFile { get; set; } = string.Empty;
+    public decimal Price { get; set; }
     public static Product Initialize() => new();
-    public Product Create(CreateProductCommand command)
+    public Product Create(GetProductQuery query)
+    {
+        Name = query.Name;
+        Category = query.Category;
+        Description = query.Description;
+        ImageFile = query.ImageFile;
+        Price = query.Price;
+        return this;
+    }
+
+    public Product Update(UpdateProductCommand command)
     {
         Name = command.Name;
         Category = command.Category;

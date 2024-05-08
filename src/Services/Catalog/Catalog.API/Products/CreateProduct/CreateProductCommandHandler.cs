@@ -1,7 +1,7 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
-public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class GetProductQueryHandler(IDocumentSession session) : ICommandHandler<GetProductQuery, CreateProductResult>
 {
-    public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+    public async Task<CreateProductResult> Handle(GetProductQuery command, CancellationToken cancellationToken)
     {
         var product = Product
                         .Initialize()

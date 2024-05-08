@@ -1,7 +1,4 @@
-version: '3.4'
-
 services:
-
   catalogdb:
     container_name: catalogdb
     environment:
@@ -19,12 +16,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=DockerCompose
       - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
     depends_on:
       -  catalogdb
     ports:
-      - "8080"
-      - "8081"
+      - "6060:8080"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

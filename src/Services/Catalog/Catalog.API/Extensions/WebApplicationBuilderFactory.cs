@@ -1,14 +1,15 @@
-﻿namespace Catalog.API.Configurations;
+﻿namespace Catalog.API.Extensions;
 public static class WebApplicationBuilderFactory
 {
-    public static WebApplicationBuilder CreateCatalogWepBuilder(string[] args)
+    public static WebApplicationBuilder CreateCatalogWebBuilder(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Host.UseNLog();
         builder
-            .Services
-            .AddCatalogOptions()
-            .AddCatalogServices();
+            .TryAddInitializeMartenWith<CatalogInitialData>()
+            .AddCatalogOptions<DatabaseSettingsOptions>(DatabaseSettingsOptions.SectionName)
+            .AddCatalogServices()
+            ;
         return builder;
     }
 }

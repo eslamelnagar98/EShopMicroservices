@@ -1,5 +1,6 @@
 ﻿namespace BuildingBlocks.Behaviors.LoggingPipeline;
-public sealed class MediatrLogger<TRequest, TResponse>(ILogger<MediatrLogger<TRequest, TResponse>> logger) : IMediatrLogger<TRequest, TResponse>
+public sealed class MediatrLogger<TRequest, TResponse>(ILogger<MediatrLogger<TRequest, TResponse>> logger) 
+    : IMediatrLogger<TRequest, TResponse>
     where TRequest : notnull, IRequest<TResponse>
     where TResponse : notnull
 {

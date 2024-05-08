@@ -1,6 +1,15 @@
-﻿namespace Catalog.API.Configurations;
+﻿namespace Catalog.API.Extensions;
 public partial class Extension
 {
+    public static IServiceCollection TryAddInitializeMartenWith<TInitialData>(this WebApplicationBuilder builder) where TInitialData : class, IInitialData
+    {
+        if (builder.Environment.IsDevelopment())
+        {
+            builder.Services.InitializeMartenWith<TInitialData>();
+        }
+        return builder.Services;
+    }
+
     public static IServiceCollection AddCatalogServices(this IServiceCollection services)
     {
         (var catalogAssembly, var assemblies) = GetAssemblies();
@@ -10,21 +19,26 @@ public partial class Extension
            .AddCatalogMediatR(catalogAssembly)
            .AddValidatorsFromAssembly(catalogAssembly)
            .AddMartenContext()
-        ;
+           .AddExceptionHandler<CustomExceptionHandler>()
+           .AddHealthChecks()
+           .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value.ConnectionString)
+           ;
         return services;
     }
 
-    public static IServiceCollection AddCatalogOptions(this IServiceCollection services)
+    public static IServiceCollection AddCatalogOptions<TOptions>(this IServiceCollection services, string sectionName)
+        where TOptions : class
     {
         services
-            .AddOptions<DatabaseSettingsOptions>()
+            .AddOptionsWithValidateOnStart<TOptions>()
             .Configure<IConfiguration>(
             (options, configuration) =>
-             configuration.GetSection(DatabaseSettingsOptions.SectionName)
+             configuration.GetSection(sectionName)
             .Bind(options))
-            .ValidateOnStart();
+            .ValidateFluently();
         return services;
     }
+
     private static IServiceCollection AddMartenContext(this IServiceCollection services)
     {
         services.AddMarten(serviceProvider =>
@@ -33,8 +47,7 @@ public partial class Extension
             var options = new StoreOptions();
             options.Connection(connectionString);
             return options;
-        })
-          .UseLightweightSessions();
+        }).UseLightweightSessions();
         return services;
     }
 
@@ -55,12 +68,16 @@ public partial class Extension
             .GetAssemblies()
             .Where(assembly => assembly.GetName().Name == "BuildingBlocks" || assembly == catalogAssembly)
             .ToArray();
-
         return (catalogAssembly, assemblies);
-
     }
 
-
-
-
+    public static OptionsBuilder<TOptions> ValidateFluently<TOptions>(this OptionsBuilder<TOptions> optionsBuilder) where TOptions : class
+    {
+        optionsBuilder.Services.AddSingleton<IValidateOptions<TOptions>>(servciceProvider =>
+        {
+            using var scope = servciceProvider.CreateScope();
+            return new FluentValidationOptions<TOptions>(scope.ServiceProvider.GetRequiredService<IValidator<TOptions>>());
+        });
+        return optionsBuilder;
+    }
 }

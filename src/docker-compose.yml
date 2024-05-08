@@ -1,6 +1,5 @@
-version: '3.4'
-
 services:
+
   catalogdb:
     image: postgres
 
@@ -12,3 +11,4 @@ services:
 
 volumes:
   postgres_catalog:
+

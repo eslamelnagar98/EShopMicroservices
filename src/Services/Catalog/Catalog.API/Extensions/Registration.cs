@@ -1,5 +1,5 @@
 ﻿using Logger = NLog.Logger;
-namespace Catalog.API.Configurations;
+namespace Catalog.API.Extensions;
 public static class Registration
 {
     public static async Task RunCatalogAsync(this WebApplicationBuilder builder)
@@ -26,13 +26,4 @@ public static class Registration
             LogManager.Shutdown();
         }
     }
-
-    //private static IServiceCollection AddControllerConfigurations(this IServiceCollection services)
-    //{
-    //    services
-    //        .AddEndpointsApiExplorer()
-    //        .AddSwaggerGen()
-    //        .AddControllers();
-    //    return services;
-    //}
 }
