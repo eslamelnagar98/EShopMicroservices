@@ -46,6 +46,7 @@ public partial class Extension
             var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value?.ConnectionString;
             var options = new StoreOptions();
             options.Connection(connectionString);
+            options.DisableNpgsqlLogging = true;
             return options;
         }).UseLightweightSessions();
         return services;
