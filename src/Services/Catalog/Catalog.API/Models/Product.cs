@@ -6,7 +6,7 @@ public sealed class Product
     public List<string> Category { get; set; } = new();
     public string Description { get; set; } = string.Empty;
     public string ImageFile { get; set; } = string.Empty;
-    public decimal Price { get; set; }
+    public decimal Price { get; set; } = decimal.Zero;
     public static Product Initialize() => new();
     public Product Create(GetProductQuery query)
     {
@@ -17,7 +17,6 @@ public sealed class Product
         Price = query.Price;
         return this;
     }
-
     public Product Update(UpdateProductCommand command)
     {
         Name = command.Name;
