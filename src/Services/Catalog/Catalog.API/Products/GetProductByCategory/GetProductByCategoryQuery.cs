@@ -1,3 +1,3 @@
 ﻿namespace Catalog.API.Products.GetProductByCategory;
-public record GetProductByCategoryQuery(string Category) : IQuery<GetProductByCategoryResult>;
-public record GetProductByCategoryResult(IEnumerable<Product> Products);
+internal sealed record GetProductByCategoryQuery(string Category) : IQuery<GetProductByCategoryResult>;
+internal sealed record GetProductByCategoryResult(IEnumerable<Product> Products);

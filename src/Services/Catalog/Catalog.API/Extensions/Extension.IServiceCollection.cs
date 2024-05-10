@@ -12,12 +12,12 @@ public partial class Extension
 
     public static IServiceCollection AddCatalogServices(this IServiceCollection services)
     {
-        (var catalogAssembly, var assemblies) = GetAssemblies();
+        var catalogAssembly = typeof(Program).Assembly;
         services
-           .AddCarter(new DependencyContextAssemblyCatalog(assemblies))
+           .AddCarterWithAssemblies(catalogAssembly)
            .AddTransient(typeof(IMediatrLogger<,>), typeof(MediatrLogger<,>))
-           .AddCatalogMediatR(catalogAssembly)
-           .AddValidatorsFromAssembly(catalogAssembly)
+           .AddMediatorBehaviors(catalogAssembly)
+           .AddValidatorsFromAssembly(catalogAssembly, includeInternalTypes: true)
            .AddMartenContext()
            .AddExceptionHandler<CustomExceptionHandler>()
            .AddHealthChecks()
@@ -25,20 +25,6 @@ public partial class Extension
            ;
         return services;
     }
-
-    public static IServiceCollection AddCatalogOptions<TOptions>(this IServiceCollection services, string sectionName)
-        where TOptions : class
-    {
-        services
-            .AddOptionsWithValidateOnStart<TOptions>()
-            .Configure<IConfiguration>(
-            (options, configuration) =>
-             configuration.GetSection(sectionName)
-            .Bind(options))
-            .ValidateFluently();
-        return services;
-    }
-
     private static IServiceCollection AddMartenContext(this IServiceCollection services)
     {
         services.AddMarten(serviceProvider =>
@@ -50,35 +36,5 @@ public partial class Extension
             return options;
         }).UseLightweightSessions();
         return services;
-    }
-
-    private static IServiceCollection AddCatalogMediatR(this IServiceCollection services, Assembly catalogAssembly)
-    {
-        return services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssembly(catalogAssembly);
-            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
-            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
-        });
-    }
-
-    private static (Assembly catalogAssembly, Assembly[] assemblies) GetAssemblies()
-    {
-        var catalogAssembly = typeof(Program).Assembly;
-        var assemblies = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .Where(assembly => assembly.GetName().Name == "BuildingBlocks" || assembly == catalogAssembly)
-            .ToArray();
-        return (catalogAssembly, assemblies);
-    }
-
-    public static OptionsBuilder<TOptions> ValidateFluently<TOptions>(this OptionsBuilder<TOptions> optionsBuilder) where TOptions : class
-    {
-        optionsBuilder.Services.AddSingleton<IValidateOptions<TOptions>>(servciceProvider =>
-        {
-            using var scope = servciceProvider.CreateScope();
-            return new FluentValidationOptions<TOptions>(scope.ServiceProvider.GetRequiredService<IValidator<TOptions>>());
-        });
-        return optionsBuilder;
     }
 }

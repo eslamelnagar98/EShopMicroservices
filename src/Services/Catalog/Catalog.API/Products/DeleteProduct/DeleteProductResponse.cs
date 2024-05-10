@@ -1,5 +1,5 @@
 ﻿namespace Catalog.API.Products.DeleteProduct;
-public record DeleteProductResponse(bool IsSuccess);
+internal sealed record DeleteProductResponse(bool IsSuccess);
 public class DeleteProductEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

@@ -1,3 +1,3 @@
 ﻿namespace Catalog.API.Products.DeleteProduct;
-public record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
-public record DeleteProductResult(bool IsSuccess);
+internal sealed record DeleteProductCommand(Guid Id) : ICommand<DeleteProductResult>;
+internal sealed record DeleteProductResult(bool IsSuccess);

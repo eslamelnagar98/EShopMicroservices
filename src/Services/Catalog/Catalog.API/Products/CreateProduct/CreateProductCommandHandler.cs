@@ -1,5 +1,5 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
-public class GetProductQueryHandler(IDocumentSession session) : ICommandHandler<GetProductQuery, CreateProductResult>
+internal sealed class GetProductQueryHandler(IDocumentSession session) : ICommandHandler<GetProductQuery, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(GetProductQuery command, CancellationToken cancellationToken)
     {

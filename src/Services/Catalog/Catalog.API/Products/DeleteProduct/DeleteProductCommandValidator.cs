@@ -1,5 +1,5 @@
 ﻿namespace Catalog.API.Products.DeleteProduct;
-public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+internal sealed class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
 {
     public DeleteProductCommandValidator()
     {

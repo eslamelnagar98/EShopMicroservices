@@ -1,5 +1,5 @@
 ﻿namespace Catalog.API.Products.CreateProduct;
-public class CreateProductCommandValidator : AbstractValidator<GetProductQuery>
+internal sealed class CreateProductCommandValidator : AbstractValidator<GetProductQuery>
 {
     public CreateProductCommandValidator()
     {

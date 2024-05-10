@@ -7,7 +7,7 @@ public static class WebApplicationBuilderFactory
         builder.Host.UseNLog();
         builder
             .TryAddInitializeMartenWith<CatalogInitialData>()
-            .AddCatalogOptions<DatabaseSettingsOptions>(DatabaseSettingsOptions.SectionName)
+            .AddIOptions<DatabaseSettingsOptions>(DatabaseSettingsOptions.SectionName)
             .AddCatalogServices()
             ;
         return builder;

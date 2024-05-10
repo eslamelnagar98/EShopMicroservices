@@ -8,7 +8,7 @@ public sealed class Product
     public string ImageFile { get; set; } = string.Empty;
     public decimal Price { get; set; } = decimal.Zero;
     public static Product Initialize() => new();
-    public Product Create(GetProductQuery query)
+    internal Product Create(GetProductQuery query)
     {
         Name = query.Name;
         Category = query.Category;
@@ -17,7 +17,7 @@ public sealed class Product
         Price = query.Price;
         return this;
     }
-    public Product Update(UpdateProductCommand command)
+    internal Product Update(UpdateProductCommand command)
     {
         Name = command.Name;
         Category = command.Category;

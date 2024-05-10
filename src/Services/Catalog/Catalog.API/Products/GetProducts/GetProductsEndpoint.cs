@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.GetProducts;
-public record GetProductsRequest(int PageNumber = 1, int PageSize = 10);
-public record GetProductsResponse(CatalogPageList<Product> Products);
+internal sealed record GetProductsRequest(int PageNumber = 1, int PageSize = 10);
+internal sealed record GetProductsResponse(CatalogPageList<Product> Products);
 public class GetProductByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

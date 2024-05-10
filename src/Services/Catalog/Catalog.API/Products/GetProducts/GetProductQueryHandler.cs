@@ -1,5 +1,5 @@
 ﻿namespace Catalog.API.Products.GetProducts;
-public class GetProductByIdQueryHandler(IDocumentSession session) : IQueryHandler<GetProductsQuery, GetProductsResult>
+internal sealed class GetProductByIdQueryHandler(IDocumentSession session) : IQueryHandler<GetProductsQuery, GetProductsResult>
 {
     public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
     {

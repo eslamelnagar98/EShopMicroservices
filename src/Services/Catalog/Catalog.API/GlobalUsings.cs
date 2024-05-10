@@ -4,7 +4,7 @@ global using BuildingBlocks.Behaviors.LoggingPipeline;
 global using BuildingBlocks.CQRS;
 global using BuildingBlocks.Exceptions;
 global using BuildingBlocks.Exceptions.Handler;
-global using BuildingBlocks.Validations;
+global using BuildingBlocks.Extensions;
 global using Carter;
 global using Catalog.API.Data;
 global using Catalog.API.Exceptions;
@@ -24,4 +24,3 @@ global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Options;
 global using NLog;
 global using NLog.Web;
-
