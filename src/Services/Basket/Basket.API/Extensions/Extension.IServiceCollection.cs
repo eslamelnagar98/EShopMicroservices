@@ -16,14 +16,13 @@ public partial class Extension
         services
            .AddCarterWithAssemblies(basketAssembly)
            .AddTransient(typeof(IMediatrLogger<,>), typeof(MediatrLogger<,>))
-           .AddScoped<IBasketRepository, BasketRepository>()
-           //.Decorate<IBasketRepository, CachedBasketRepository>()
+           .AddRedisConnection()
+           .AddPersistence()
            .AddMediatorBehaviors(basketAssembly)
            .AddValidatorsFromAssembly(basketAssembly, includeInternalTypes: true)
            .AddMartenContext()
            .AddExceptionHandler<CustomExceptionHandler>()
-           .AddHealthChecks()
-           .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value.ConnectionString)
+           .AddBasketHealthChecks()
            ;
         return services;
     }
@@ -33,7 +32,7 @@ public partial class Extension
     {
         services.AddMarten(serviceProvider =>
         {
-            var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value?.ConnectionString;
+            var connectionString = serviceProvider.GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value?.ConnectionString;
             var options = new StoreOptions();
             options.Connection(connectionString);
             options.DisableNpgsqlLogging = true;
@@ -42,5 +41,31 @@ public partial class Extension
             return options;
         }).UseLightweightSessions();
         return services;
+    }
+
+    private static IServiceCollection AddRedisConnection(this IServiceCollection services)
+    {
+        return services.AddStackExchangeRedisCache(options =>
+        {
+            var redisConnection = services.BuildServiceProvider()
+                                          .GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value?.Redis;
+            options.Configuration = redisConnection;
+        });
+    }
+
+    private static IServiceCollection AddBasketHealthChecks(this IServiceCollection services)
+    {
+        services.AddHealthChecks()
+                .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value.ConnectionString)
+                .AddRedis((serviceProvider) => serviceProvider.GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value.Redis)
+                ;
+
+        return services;
+    }
+
+    private static IServiceCollection AddPersistence(this IServiceCollection services)
+    {
+        return services.AddScoped<IBasketRepository, BasketRepository>()
+                       .Decorate<IBasketRepository, CachedBasketRepository>();
     }
 }

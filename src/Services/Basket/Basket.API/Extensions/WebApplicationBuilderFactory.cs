@@ -6,9 +6,8 @@ public static class WebApplicationBuilderFactory
         var builder = WebApplication.CreateBuilder(args);
         builder.Host.UseNLog();
         builder
-            .Services
-            //.TryAddInitializeMartenWith<CatalogInitialData>()
-            .AddIOptions<DatabaseSettingsOptions>(DatabaseSettingsOptions.SectionName)
+            .TryAddInitializeMartenWith<BasketInitialData>()
+            .AddIOptions<PersistenceSettingsOptions>(PersistenceSettingsOptions.SectionName)
             .AddBasketServices()
             ;
         return builder;

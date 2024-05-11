@@ -1,0 +1,16 @@
+﻿global using System.Reflection;
+global using BuildingBlocks.Exceptions.Handler;
+global using BuildingBlocks.Extensions;
+global using Discount.gRPC.Data;
+global using Discount.gRPC.Extensions;
+global using Discount.gRPC.Models;
+global using Discount.gRPC.Options;
+global using Discount.gRPC.Services;
+global using FluentValidation;
+global using Grpc.Core;
+global using Mapster;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.ChangeTracking;
+global using Microsoft.Extensions.Options;
+global using NLog;
+global using NLog.Web;

@@ -1,4 +1,5 @@
 ﻿global using System.Reflection;
+global using System.Text.Json;
 global using Basket.API.Data;
 global using Basket.API.Exceptions;
 global using Basket.API.Extensions;
@@ -17,6 +18,7 @@ global using Marten;
 global using Marten.Schema;
 global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.Options;
 global using NLog;
 global using NLog.Web;
