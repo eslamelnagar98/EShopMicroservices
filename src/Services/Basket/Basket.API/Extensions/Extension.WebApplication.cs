@@ -1,14 +1,14 @@
 ﻿namespace Basket.API.Extensions;
 public static partial class Extension
 {
-    public static WebApplication AddMiddlewares(this WebApplication app)
+    public static WebApplication UseBasketMiddlewares(this WebApplication app)
     {
-        app.MapCarter();
-        app.UseExceptionHandler(options => { })
+        app.UseExceptionHandler(_ => { })
            .UseHealthChecks("/health", new HealthCheckOptions
-            {
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            });
+           {
+               ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+           });
+        app.MapCarter();
         return app;
     }
 

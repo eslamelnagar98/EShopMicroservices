@@ -5,9 +5,9 @@ public static partial class Extension
     {
         var catalogAssembly = typeof(Program).Assembly;
         services
+           .AddExceptionHandler<CustomExceptionHandler>()
            .AddValidatorsFromAssembly(catalogAssembly, includeInternalTypes: true)
            .AddDiscountDbContext()
-           .AddExceptionHandler<CustomExceptionHandler>()
            .AddGrpc()
            ;
         return services;

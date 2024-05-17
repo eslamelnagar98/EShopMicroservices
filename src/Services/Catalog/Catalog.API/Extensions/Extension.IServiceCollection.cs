@@ -14,12 +14,12 @@ public partial class Extension
     {
         var catalogAssembly = typeof(Program).Assembly;
         services
+           .AddExceptionHandler<CustomExceptionHandler>()
            .AddCarterWithAssemblies(catalogAssembly)
            .AddTransient(typeof(IMediatrLogger<,>), typeof(MediatrLogger<,>))
            .AddMediatorBehaviors(catalogAssembly)
            .AddValidatorsFromAssembly(catalogAssembly, includeInternalTypes: true)
            .AddMartenContext()
-           .AddExceptionHandler<CustomExceptionHandler>()
            .AddHealthChecks()
            .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value.ConnectionString)
            ;

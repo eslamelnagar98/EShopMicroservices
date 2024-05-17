@@ -12,6 +12,12 @@ services:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
 
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.gRPC/Dockerfile
+
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
@@ -21,11 +27,6 @@ services:
   distributedcache:
     image: redis
 
-  discount.grpc:
-    image: ${DOCKER_REGISTRY-}discountgrpc
-    build:
-      context: .
-      dockerfile: Services/Discount/Discount.gRPC/Dockerfile
 
 volumes:
   postgres_catalog:

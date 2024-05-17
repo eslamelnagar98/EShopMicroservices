@@ -13,7 +13,7 @@ public static class Registration
             serviceName = Extension.GetServiceName();
             app = builder.Build();
             logger.Info($"Service {serviceName} Starts Successfully");
-            await app.AddMiddlewares()
+            await app.UseBasketMiddlewares()
                      .RunAsync();
         }
         catch (Exception exception)

@@ -14,6 +14,7 @@ public partial class Extension
     {
         var basketAssembly = typeof(Program).Assembly;
         services
+           .AddExceptionHandler<CustomExceptionHandler>()
            .AddCarterWithAssemblies(basketAssembly)
            .AddTransient(typeof(IMediatrLogger<,>), typeof(MediatrLogger<,>))
            .AddRedisConnection()
@@ -21,8 +22,8 @@ public partial class Extension
            .AddMediatorBehaviors(basketAssembly)
            .AddValidatorsFromAssembly(basketAssembly, includeInternalTypes: true)
            .AddMartenContext()
-           .AddExceptionHandler<CustomExceptionHandler>()
            .AddBasketHealthChecks()
+           .AddDiscountGrpcClient()
            ;
         return services;
     }
@@ -67,5 +68,23 @@ public partial class Extension
     {
         return services.AddScoped<IBasketRepository, BasketRepository>()
                        .Decorate<IBasketRepository, CachedBasketRepository>();
+    }
+
+    private static IServiceCollection AddDiscountGrpcClient(this IServiceCollection services)
+    {
+        services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>((serviceProvider, options) =>
+        {
+            var discountUrl = serviceProvider.GetRequiredService<IOptions<GrpcSettingsOptions>>()?.Value.DiscountUrl;
+            options.Address = new Uri(discountUrl);
+        }).ConfigurePrimaryHttpMessageHandler(() =>
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+            return handler;
+        });
+        return services;
     }
 }

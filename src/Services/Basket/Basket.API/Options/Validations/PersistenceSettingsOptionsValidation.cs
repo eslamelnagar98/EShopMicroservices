@@ -1,7 +1,7 @@
 ﻿namespace Basket.API.Options.Validations;
-public class DatabaseSettingsOptionsValidation : AbstractValidator<PersistenceSettingsOptions>
+public class PersistenceSettingsOptionsValidation : AbstractValidator<PersistenceSettingsOptions>
 {
-    public DatabaseSettingsOptionsValidation()
+    public PersistenceSettingsOptionsValidation()
     {
         RuleFor(p => p.ConnectionString)
             .NotEmpty()
