@@ -1,1 +1,15 @@
-﻿
+﻿global using System.Reflection;
+global using BuildingBlocks.Behaviors.LoggingPipeline;
+global using BuildingBlocks.Exceptions.Handler;
+global using BuildingBlocks.Extensions;
+global using FluentValidation;
+global using FluentValidation.AspNetCore;
+global using HealthChecks.UI.Client;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+global using Microsoft.Extensions.Options;
+global using NLog;
+global using NLog.Web;
+global using Ordering.API.Extensions;
+global using Ordering.Infrastructure.Data;
+global using Ordering.Infrastructure.Data.Extensions;
+global using Ordering.Infrastructure.Options;

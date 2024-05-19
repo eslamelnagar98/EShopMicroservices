@@ -1,5 +1,5 @@
 ﻿namespace Ordering.Domain.Models;
-public sealed class Order : Aggregate<Guid>
+public sealed class Order : Aggregate<OrderId>
 {
     private readonly List<OrderItem> _orderItems = new();
     public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();

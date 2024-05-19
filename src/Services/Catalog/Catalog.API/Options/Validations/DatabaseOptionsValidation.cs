@@ -1,7 +1,7 @@
 ﻿namespace Catalog.API.Options.Validations;
-public class DatabaseSettingsOptionsValidation : AbstractValidator<DatabaseSettingsOptions>
+public class DatabaseOptionsValidation : AbstractValidator<DatabaseOptions>
 {
-    public DatabaseSettingsOptionsValidation()
+    public DatabaseOptionsValidation()
     {
         RuleFor(d => d.ConnectionString)
             .NotEmpty()

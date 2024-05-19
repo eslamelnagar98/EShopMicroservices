@@ -1,5 +1,5 @@
 ﻿namespace Ordering.Domain.Models;
-public sealed class OrderItem : Entity<Guid>
+public sealed class OrderItem : Entity<OrderItemId>
 {
     public OrderId OrderId { get; private set; } = default!;
     public ProductId ProductId { get; private set; } = default!;

@@ -1,14 +1,15 @@
-﻿namespace Catalog.API.Extensions;
+﻿namespace Ordering.API.Extensions;
 public static class WebApplicationBuilderFactory
 {
-    public static WebApplicationBuilder CreateCatalogWebBuilder(string[] args)
+    public static WebApplicationBuilder CreateOrderingWebBuilder(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
         builder.Host.UseNLog();
         builder
-            .TryAddInitializeMartenWith<CatalogInitialData>()
+            .Services
             .AddIOptions<DatabaseOptions>(DatabaseOptions.SectionName)
-            .AddCatalogServices()
+            .AddOrderingDbContext<ApplicationDbContext>()
+            .AddOrderingServices()
             ;
         return builder;
     }

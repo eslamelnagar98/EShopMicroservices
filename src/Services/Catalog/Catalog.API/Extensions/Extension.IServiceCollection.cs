@@ -21,7 +21,7 @@ public partial class Extension
            .AddValidatorsFromAssembly(catalogAssembly, includeInternalTypes: true)
            .AddMartenContext()
            .AddHealthChecks()
-           .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value.ConnectionString)
+           .AddNpgSql((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value.ConnectionString)
            ;
         return services;
     }
@@ -29,7 +29,7 @@ public partial class Extension
     {
         services.AddMarten(serviceProvider =>
         {
-            var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value?.ConnectionString;
+            var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value?.ConnectionString;
             var options = new StoreOptions();
             options.Connection(connectionString);
             options.DisableNpgsqlLogging = true;
