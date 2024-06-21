@@ -19,6 +19,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         {
             return;
         }
+
         var userName = "Islam El-Naggar";
         var currentTime = DateTime.UtcNow;
         foreach (var entry in context.ChangeTracker.Entries<IEntity>())

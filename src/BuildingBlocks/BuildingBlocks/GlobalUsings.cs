@@ -1,9 +1,11 @@
-﻿global using System.Diagnostics;
+﻿global using System.Collections;
+global using System.Diagnostics;
 global using System.Numerics;
 global using System.Reflection;
 global using BuildingBlocks.Behaviors;
 global using BuildingBlocks.Behaviors.LoggingPipeline;
 global using BuildingBlocks.CQRS;
+global using BuildingBlocks.Extensions;
 global using Carter;
 global using FluentValidation;
 global using MediatR;

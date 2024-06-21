@@ -6,11 +6,13 @@ public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChanges
         DispatchDomainEvents(eventData.Context)
             .GetAwaiter()
             .GetResult();
+
         return base.SavingChanges(eventData, result);
     }
     public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
     {
         await DispatchDomainEvents(eventData.Context);
+
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 

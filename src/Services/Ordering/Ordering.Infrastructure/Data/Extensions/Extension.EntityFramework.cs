@@ -5,13 +5,20 @@ public static partial class Extension
         where TContext : DbContext
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
         services.AddDbContext<TContext>((serviceProvider, Options) =>
         {
             var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value.ConnectionString;
+
             Options.AddInterceptors(serviceProvider.GetRequiredService<ISaveChangesInterceptor>());
+
             Options.UseSqlServer(connectionString);
         });
+
+        services.AddScoped<IApplicationDbContext, IApplicationDbContext>();
+
         return services;
     }
     public static async Task InitialiseDatabaseAsync(this WebApplication app)
@@ -32,12 +39,25 @@ public static partial class Extension
            (r.TargetEntry.State == EntityState.Added || r.TargetEntry.State == EntityState.Modified));
     }
 
+    public static IQueryable<TEntity> EvaluateSpecification<TEntity, Tobj>(this IQueryable<TEntity> inputQuery,
+                                                                           Tobj specification,
+                                                                           Func<IQueryable<TEntity>, IQueryable<TEntity>> predicate)
+    {
+        if (specification is bool spec)
+        {
+            return spec is false ? inputQuery : predicate?.Invoke(inputQuery);
+        }
+        return specification is null ? inputQuery : predicate?.Invoke(inputQuery);
+    }
 
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         await SeedCustomerAsync(context);
+
         await SeedProductAsync(context);
+
         await SeedOrdersWithItemsAsync(context);
+
         await context.SaveChangesAsync();
     }
 
@@ -64,6 +84,8 @@ public static partial class Extension
             await context.Orders.AddRangeAsync(GetOrders());
         }
     }
+
+
 
 
 }

@@ -11,6 +11,7 @@ public sealed record CustomerId
     private static CustomerId Of(Guid value)
     {
         ArgumentNullException.ThrowIfNull(value);
+
         if (value == Guid.Empty)
         {
             throw new DomainException("CustomerId cannot be empty.");
@@ -19,3 +20,4 @@ public sealed record CustomerId
         return new CustomerId(value);
     }
 }
+
