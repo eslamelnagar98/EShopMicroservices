@@ -1,4 +1,5 @@
 ﻿namespace Ordering.API.Extensions;
+
 public static partial class Extension
 {
     public static async Task<WebApplication> UseOrderingMiddlewaresAsync(this WebApplication app)
@@ -9,6 +10,7 @@ public static partial class Extension
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
+        app.MapCarter();
         return app;
     }
 
@@ -19,6 +21,7 @@ public static partial class Extension
             .LoadConfigurationFromAppSettings()
             .GetCurrentClassLogger();
     }
+
     public static string GetServiceName()
     {
         return Assembly
@@ -33,6 +36,7 @@ public static partial class Extension
         {
             await app.InitialiseDatabaseAsync();
         }
+
         return app;
     }
 }

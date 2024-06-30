@@ -33,6 +33,7 @@ services:
 volumes:
   postgres_catalog:
   postgres_basket:
+  orderdb_data:
 
 
 

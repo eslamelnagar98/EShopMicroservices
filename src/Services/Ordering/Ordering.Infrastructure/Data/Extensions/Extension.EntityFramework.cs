@@ -4,6 +4,8 @@ public static partial class Extension
     public static IServiceCollection AddOrderingDbContext<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
 
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -17,7 +19,6 @@ public static partial class Extension
             Options.UseSqlServer(connectionString);
         });
 
-        services.AddScoped<IApplicationDbContext, IApplicationDbContext>();
 
         return services;
     }
@@ -84,8 +85,5 @@ public static partial class Extension
             await context.Orders.AddRangeAsync(GetOrders());
         }
     }
-
-
-
 
 }

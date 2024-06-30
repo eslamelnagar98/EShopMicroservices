@@ -1,11 +1,11 @@
 ﻿namespace BuildingBlocks.Extensions;
 public partial class Extension
 {
-    public static IServiceCollection AddMediatorBehaviors(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddMediatorBehaviors(this IServiceCollection services,params Assembly[] assemblies)
     {
         return services.AddMediatR(config =>
         {
-            config.RegisterServicesFromAssemblies(assembly);
+            config.RegisterServicesFromAssemblies(assemblies);
             config.AddOpenBehavior(typeof(ValidationBehavior<,>));
             config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });

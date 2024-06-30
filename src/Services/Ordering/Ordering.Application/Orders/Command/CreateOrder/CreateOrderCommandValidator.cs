@@ -1,5 +1,5 @@
 ﻿namespace Ordering.Application.Orders.Command.CreateOrder;
-public class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderCommand>
+public class UpdateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {
     public UpdateOrderCommandValidator()
     {

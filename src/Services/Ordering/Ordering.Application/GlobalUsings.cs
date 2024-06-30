@@ -2,6 +2,7 @@
 global using System.Diagnostics.CodeAnalysis;
 global using System.Runtime.CompilerServices;
 global using BuildingBlocks.CQRS;
+global using BuildingBlocks.Exceptions;
 global using BuildingBlocks.Pagination;
 global using FluentValidation;
 global using MediatR;

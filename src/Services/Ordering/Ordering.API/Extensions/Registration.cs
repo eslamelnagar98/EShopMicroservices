@@ -1,6 +1,8 @@
 ﻿using Logger = NLog.Logger;
+
 namespace Ordering.API.Extensions;
-public static class Registration
+
+internal static class Registration
 {
     public static async Task RunOrderingAsync(this WebApplicationBuilder builder)
     {
@@ -19,7 +21,7 @@ public static class Registration
         catch (Exception exception)
         {
             logger?.Error(exception, $"Service {serviceName} Stopping Due To Exception");
-            await app?.StopAsync();
+            await app?.StopAsync()!;
         }
         finally
         {

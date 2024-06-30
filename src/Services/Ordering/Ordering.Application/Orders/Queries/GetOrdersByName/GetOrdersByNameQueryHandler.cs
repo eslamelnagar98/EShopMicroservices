@@ -1,20 +1,16 @@
 ﻿namespace Ordering.Application.Orders.Queries.GetOrdersByName;
-public class GetOrdersHandler(IApplicationDbContext dbContext) : IQueryHandler<GetOrdersQuery, GetOrdersResult>
+public class GetOrdersByNameHandler(IApplicationDbContext dbContext)
+    : IQueryHandler<GetOrdersByNameQuery, GetOrdersByNameResult>
 {
-    public async Task<GetOrdersResult> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
+    public async Task<GetOrdersByNameResult> Handle(GetOrdersByNameQuery query, CancellationToken cancellationToken)
     {
-        var pageNumber = query.PaginationRequest.PageIndex;
-
-        var pageSize = query.PaginationRequest.PageSize;
-
         var orders = await dbContext.Orders
-                       .Include(o => o.OrderItems)
-                       .OrderBy(o => o.OrderName.Value)
-                       .ToPageListAsync(pageNumber, pageSize, cancellationToken);
+                .Include(o => o.OrderItems)
+                .AsNoTracking()
+                .Where(o => o.OrderName.Value.Contains(query.Name))
+                .OrderBy(o => o.OrderName.Value)
+                .ToListAsync(cancellationToken);
 
-        var orderDtoPageList = orders.ToOrderDtoPageList();
-
-        return new GetOrdersResult(orderDtoPageList);
-
+        return new GetOrdersByNameResult(orders.ToOrderDtoList());
     }
 }

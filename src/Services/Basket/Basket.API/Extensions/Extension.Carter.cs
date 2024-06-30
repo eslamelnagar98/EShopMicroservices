@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Extensions;
+﻿namespace Basket.API.Extensions;
 public partial class Extension
 {
     public static IServiceCollection AddCarterWithAssemblies(this IServiceCollection services, params Assembly[] assemblies)

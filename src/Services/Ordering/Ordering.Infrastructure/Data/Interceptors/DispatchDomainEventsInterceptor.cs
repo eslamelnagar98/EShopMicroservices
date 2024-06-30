@@ -16,24 +16,30 @@ public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChanges
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 
-    private async Task DispatchDomainEvents(DbContext? context)
+    private async Task DispatchDomainEvents(DbContext context)
     {
         if (context is null)
         {
             return;
         }
+
         var aggregates = context.ChangeTracker
             .Entries<IAggregate>()
             .Where(a => a.Entity.DomainEvents.Any())
-            .Select(a => a.Entity);
+            .Select(a => a.Entity)
+            .ToList();
 
         var domainEvents = aggregates
-            .SelectMany(a => a.ClearDomainEvents());
+            .SelectMany(a => a.DomainEvents)
+            .ToList();
+
+
+        aggregates.ForEach(a => a.ClearDomainEvents());
 
         await PublishDomainEventAsync(domainEvents);
     }
 
-    private async Task PublishDomainEventAsync(IEnumerable<IDomainEvent> domainEvents)
+    private async Task PublishDomainEventAsync(List<IDomainEvent> domainEvents)
     {
         foreach (var domainEvent in domainEvents)
         {

@@ -38,6 +38,8 @@ services:
     restart: always
     ports:
       - "1433:1433"
+    volumes:
+      - orderdb_data:/var/opt/mssql
 
 
   catalog.api:

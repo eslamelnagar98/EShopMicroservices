@@ -4,7 +4,7 @@ public static partial class Extension
     public static IServiceCollection AddDiscountServices(this IServiceCollection services)
     {
         var catalogAssembly = typeof(Program).Assembly;
-        services
+        services 
            .AddExceptionHandler<CustomExceptionHandler>()
            .AddValidatorsFromAssembly(catalogAssembly, includeInternalTypes: true)
            .AddDiscountDbContext()
@@ -17,6 +17,7 @@ public static partial class Extension
         return services.AddDbContext<DiscountContext>((serviceProvider, options) =>
         {
             var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseSettingsOptions>>()?.Value.ConnectionString;
+
             options.UseSqlite(connectionString);
         });
     }

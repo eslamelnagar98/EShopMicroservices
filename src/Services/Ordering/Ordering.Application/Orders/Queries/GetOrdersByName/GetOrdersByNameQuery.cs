@@ -1,4 +1,4 @@
 ﻿namespace Ordering.Application.Orders.Queries.GetOrdersByName;
-public record GetOrdersQuery(PaginationRequest PaginationRequest) : IQuery<GetOrdersResult>;
+public record GetOrdersByNameQuery(string Name) : IQuery<GetOrdersByNameResult>;
 
-public record GetOrdersResult(PagedList<OrderDto> Orders);
+public record GetOrdersByNameResult(IEnumerable<OrderDto> Orders);
