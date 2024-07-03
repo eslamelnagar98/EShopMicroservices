@@ -1,8 +1,4 @@
-﻿using Ordering.API.Endpoints;
-using Ordering.Domain.Models;
-
-namespace Ordering.API.Extensions;
-
+﻿namespace Ordering.API.Extensions;
 public static class WebApplicationBuilderFactory
 {
     public static WebApplicationBuilder CreateOrderingWebBuilder(string[] args)

@@ -3,11 +3,9 @@ public partial class Extension
 {
     public static IServiceCollection TryAddInitializeMartenWith<TInitialData>(this WebApplicationBuilder builder) where TInitialData : class, IInitialData
     {
-        if (builder.Environment.IsDevelopment())
-        {
-            builder.Services.InitializeMartenWith<TInitialData>();
-        }
-        return builder.Services;
+        return builder.Environment.IsDevelopment()
+            ? builder.Services.InitializeMartenWith<TInitialData>()
+            : builder.Services;
     }
 
     public static IServiceCollection AddBasketServices(this IServiceCollection services)
@@ -24,6 +22,7 @@ public partial class Extension
            .AddMartenContext()
            .AddBasketHealthChecks()
            .AddDiscountGrpcClient()
+           .AddMessageBroker(basketAssembly)
            ;
         return services;
     }

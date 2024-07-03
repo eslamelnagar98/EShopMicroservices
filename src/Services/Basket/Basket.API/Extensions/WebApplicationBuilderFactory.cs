@@ -9,6 +9,7 @@ public static class WebApplicationBuilderFactory
             .TryAddInitializeMartenWith<BasketInitialData>()
             .AddIOptions<PersistenceSettingsOptions>(PersistenceSettingsOptions.SectionName)
             .AddIOptions<GrpcSettingsOptions>(GrpcSettingsOptions.SectionName)
+            .AddIOptions<MessageBrokerOptions>(MessageBrokerOptions.SectionName)
             .AddBasketServices()
             ;
         return builder;

@@ -9,6 +9,7 @@ public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChanges
 
         return base.SavingChanges(eventData, result);
     }
+
     public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
     {
         await DispatchDomainEvents(eventData.Context);
@@ -19,9 +20,7 @@ public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChanges
     private async Task DispatchDomainEvents(DbContext context)
     {
         if (context is null)
-        {
             return;
-        }
 
         var aggregates = context.ChangeTracker
             .Entries<IAggregate>()
@@ -41,9 +40,6 @@ public class DispatchDomainEventsInterceptor(IPublisher publisher) : SaveChanges
 
     private async Task PublishDomainEventAsync(List<IDomainEvent> domainEvents)
     {
-        foreach (var domainEvent in domainEvents)
-        {
-            await publisher.Publish(domainEvent);
-        }
+        await domainEvents.ForEachAsync(async domainEvent => await publisher.Publish(domainEvent));
     }
 }
