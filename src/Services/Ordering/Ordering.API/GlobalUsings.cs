@@ -2,6 +2,8 @@
 global using BuildingBlocks.Behaviors.LoggingPipeline;
 global using BuildingBlocks.Exceptions.Handler;
 global using BuildingBlocks.Extensions;
+global using BuildingBlocks.Messaging.Extensions;
+global using BuildingBlocks.Messaging.Options;
 global using BuildingBlocks.Pagination;
 global using Carter;
 global using FluentValidation;

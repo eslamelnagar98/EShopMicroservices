@@ -1,20 +1,30 @@
 ﻿namespace BuildingBlocks.Messaging.Extensions;
 public static partial class Extension
 {
-    public static IServiceCollection AddMessageBroker(this IServiceCollection services, Assembly? assembly = null)
+    public static IServiceCollection AddMessageBrokerWithConsumers(this IServiceCollection services, params Assembly[] assemblies)
     {
-        return services.AddMassTransit(RegisterBusConfigurator(assembly));
+        return services.AddMessageBroker(assemblies);
     }
 
-    private static Action<IBusRegistrationConfigurator> RegisterBusConfigurator(Assembly? assembly)
+    public static IServiceCollection AddMessageBroker(this IServiceCollection services)
+    {
+        return services.AddMessageBroker();
+    }
+
+    private static IServiceCollection AddMessageBroker(this IServiceCollection services, params Assembly[] assemblies)
+    {
+        return services.AddMassTransit(RegisterBusConfigurator(assemblies));
+    }
+
+    private static Action<IBusRegistrationConfigurator> RegisterBusConfigurator(params Assembly[] assemblies)
     {
         return config =>
         {
             config.SetKebabCaseEndpointNameFormatter();
 
-            if (assembly is not null)
+            if (assemblies.IsNotNullOrEmpty())
             {
-                config.AddConsumers(assembly);
+                config.AddConsumers(assemblies);
             }
 
             config.UsingRabbitMq(ConfigureRabbitMQ);

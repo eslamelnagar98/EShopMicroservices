@@ -1,5 +1,5 @@
 ﻿namespace Basket.API.Basket.CheckoutBasket;
-public class CheckoutBasketCommandValidation : AbstractValidator<CheckoutBasketCommand>
+internal class CheckoutBasketCommandValidation : AbstractValidator<CheckoutBasketCommand>
 {
     public CheckoutBasketCommandValidation()
     {

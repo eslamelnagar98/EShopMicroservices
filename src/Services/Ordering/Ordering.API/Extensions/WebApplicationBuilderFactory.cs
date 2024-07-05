@@ -9,6 +9,7 @@ public static class WebApplicationBuilderFactory
         builder
             .Services
             .AddIOptions<DatabaseOptions>(DatabaseOptions.SectionName)
+            .AddIOptions<MessageBrokerOptions>(MessageBrokerOptions.SectionName)
             .AddOrderingServices()
             .AddOrderingDbContext<ApplicationDbContext>()
             ;

@@ -1,4 +1,4 @@
-﻿namespace Basket.API.Data;
+﻿namespace Basket.API.Data.BasketData;
 internal sealed class CachedBasketRepository(IBasketRepository repository, IDistributedCache cache) : IBasketRepository
 {
     public async Task<ShoppingCart> GetBasket(string userName, CancellationToken cancellationToken = default)
@@ -12,7 +12,7 @@ internal sealed class CachedBasketRepository(IBasketRepository repository, IDist
     {
         await repository.StoreBasket(basket, cancellationToken);
 
-        await cache.SetStringAsync(basket.UserName, JsonSerializer.Serialize(basket), cancellationToken);
+        await cache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket), cancellationToken);
 
         return basket;
     }
@@ -30,12 +30,13 @@ internal sealed class CachedBasketRepository(IBasketRepository repository, IDist
     {
         if (cachedBasket.IsNotNullOrEmpty())
         {
-            return JsonSerializer.Deserialize<ShoppingCart>(cachedBasket);
+            return JsonConvert.DeserializeObject<ShoppingCart>(cachedBasket);
         }
         var basket = await repository.GetBasket(userName, cancellationToken);
 
-        await cache.SetStringAsync(userName, JsonSerializer.Serialize(basket), cancellationToken);
+        await cache.SetStringAsync(userName, JsonConvert.SerializeObject(basket), cancellationToken);
 
         return basket;
     }
+
 }

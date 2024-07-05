@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Extensions;
+﻿using Basket.API.Data.BasketDbData;
+
+namespace Basket.API.Extensions;
 public partial class Extension
 {
     public static IServiceCollection TryAddInitializeMartenWith<TInitialData>(this WebApplicationBuilder builder) where TInitialData : class, IInitialData
@@ -15,14 +17,14 @@ public partial class Extension
            .AddExceptionHandler<CustomExceptionHandler>()
            .AddCarterWithAssemblies(basketAssembly)
            .AddTransient(typeof(IMediatrLogger<,>), typeof(MediatrLogger<,>))
-           .AddRedisConnection()
            .AddPersistence()
            .AddMediatorBehaviors(basketAssembly)
            .AddValidatorsFromAssembly(basketAssembly, includeInternalTypes: true)
            .AddMartenContext()
            .AddBasketHealthChecks()
            .AddDiscountGrpcClient()
-           .AddMessageBroker(basketAssembly)
+           .AddMessageBroker()
+           .AddRedisConnection()
            ;
         return services;
     }
@@ -33,11 +35,16 @@ public partial class Extension
         services.AddMarten(serviceProvider =>
         {
             var connectionString = serviceProvider.GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value?.ConnectionString;
+
             var options = new StoreOptions();
             options.Connection(connectionString);
             options.DisableNpgsqlLogging = true;
             options.Schema.For<ShoppingCart>()
                           .Identity(x => x.UserName);
+            var outboxSessionListener = serviceProvider.GetRequiredService<OutboxSessionListener>();
+
+            options.Listeners.Add(outboxSessionListener);
+
             return options;
         }).UseLightweightSessions();
         return services;
@@ -65,8 +72,10 @@ public partial class Extension
 
     private static IServiceCollection AddPersistence(this IServiceCollection services)
     {
-        return services.AddScoped<IBasketRepository, BasketRepository>()
-                       .Decorate<IBasketRepository, CachedBasketRepository>();
+        services.AddScoped<IBasketRepository, BasketRepository>()
+                .Decorate<IBasketRepository, CachedBasketRepository>();
+
+        return services.AddScoped<IBasketDbRepository, BasketDbRepository>();
     }
 
     private static IServiceCollection AddDiscountGrpcClient(this IServiceCollection services)

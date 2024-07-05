@@ -1,4 +1,4 @@
-﻿namespace Basket.API.Data;
+﻿namespace Basket.API.Data.BasketData;
 public class BasketInitialData : IInitialData
 {
     public async Task Populate(IDocumentStore store, CancellationToken cancellation)

@@ -14,6 +14,7 @@ public partial class Extension
             .AddValidatorsFromAssemblies(GetOrderingAssemblies(), includeInternalTypes: true)
             .AddFluentValidationClientsideAdapters()
             .AddOrderingHealthChecks()
+            .AddMessageBrokerWithConsumers(Assembly.Load("Ordering.Application"))
             ;
 
         return services;

@@ -1,4 +1,4 @@
-﻿namespace Ordering.Infrastructure.Data.Extensions;
+﻿namespace BuildingBlocks.Extensions;
 public partial class Extension
 {
     public static async Task ForEachAsync<T>(this IEnumerable<T> colletion, Func<T, Task> func)
