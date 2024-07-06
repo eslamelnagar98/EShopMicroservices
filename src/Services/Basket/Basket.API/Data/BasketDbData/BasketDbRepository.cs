@@ -1,4 +1,5 @@
-﻿namespace Basket.API.Data.BasketDbData;
+﻿
+namespace Basket.API.Data.BasketDbData;
 internal sealed class BasketDbRepository(IDocumentSession session) : IBasketDbRepository
 {
     public async Task<IReadOnlyList<TEntity>> GetAllDataAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
@@ -15,5 +16,10 @@ internal sealed class BasketDbRepository(IDocumentSession session) : IBasketDbRe
         await session.SaveChangesAsync(cancellationToken);
 
         return entity;
+    }
+
+    public void StoreOutboxMessage(OutboxMessage outboxMessage)
+    {
+        session.Store(outboxMessage);
     }
 }

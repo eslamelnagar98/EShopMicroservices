@@ -1,5 +1,5 @@
 ﻿namespace Basket.API.Basket.CheckoutBasket;
-internal class CheckoutBasketCommandHandler(IBasketRepository repository, OutboxSessionListener outboxSessionListener)
+internal class CheckoutBasketCommandHandler(IBasketRepository repository, IBasketDbRepository basketDbRepository)
     : ICommandHandler<CheckoutBasketCommand, CheckoutBasketResult>
 {
     public async Task<CheckoutBasketResult> Handle(CheckoutBasketCommand command, CancellationToken cancellationToken)
@@ -15,10 +15,13 @@ internal class CheckoutBasketCommandHandler(IBasketRepository repository, Outbox
 
         eventMessage.TotalPrice = basket.TotalPrice;
 
-        outboxSessionListener.AddOutboxMessage(eventMessage.GetType().FullName, eventMessage);
+        var outboxMessage = OutboxMessage.Create(eventMessage.GetType().FullName, eventMessage);
+
+        basketDbRepository.StoreOutboxMessage(outboxMessage);
 
         await repository.DeleteBasket(command.BasketCheckoutDto.UserName, cancellationToken);
 
         return new CheckoutBasketResult(true);
     }
+
 }

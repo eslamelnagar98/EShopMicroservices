@@ -43,10 +43,16 @@ public class OutboxProcessorJob(IServiceProvider serviceProvider, ILogger<Outbox
 
     private Type GetEventType(string messageType)
     {
-        var eventType = Type.GetType(messageType);
+        var assemblyName = "BuildingBlocks.Messaging";
+
+        var assembly= Assembly.Load(assemblyName);
+
+        var eventType = assembly.GetType(messageType);
+
         if (eventType == null)
         {
             logger.LogWarning("Event type not found: {EventType}", messageType);
+
             throw new Exception($"Event type not found: {messageType}");
         }
 
@@ -72,7 +78,7 @@ public class OutboxProcessorJob(IServiceProvider serviceProvider, ILogger<Outbox
     {
         message.MarkAsPublished();
 
-        await repository.StoreEntity(message, stoppingToken);
+         await repository.StoreEntity(message,stoppingToken);
 
         logger.LogInformation("Successfully published outbox message: {MessageId}", message.Id);
     }

@@ -13,6 +13,7 @@ global using Mapster;
 global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 global using Microsoft.Extensions.Options;
+global using Microsoft.FeatureManagement;
 global using NLog;
 global using NLog.Web;
 global using Ordering.API.Extensions;

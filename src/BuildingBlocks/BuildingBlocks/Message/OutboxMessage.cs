@@ -8,6 +8,20 @@ public class OutboxMessage
     public bool IsPublished { get; set; }
     public DateTime? PublishedAt { get; set; }
 
+    public static OutboxMessage Create<T>(string messageType, T @event)
+    {
+        var payload = JsonConvert.SerializeObject(@event);
+
+        return new()
+        {
+            Id = Guid.NewGuid(),
+            Type = messageType,
+            Payload = payload,
+            CreatedAt = DateTime.UtcNow,
+            IsPublished = false
+        };
+    }
+
     public void MarkAsPublished()
     {
         IsPublished = true;

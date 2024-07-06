@@ -7,6 +7,7 @@ global using Basket.API.Data.Interceptors;
 global using Basket.API.Dtos.BasketCheckout;
 global using Basket.API.Exceptions;
 global using Basket.API.Extensions;
+global using Basket.API.Jobs;
 global using Basket.API.Models;
 global using Basket.API.Options;
 global using Basket.API.Options.Validations;

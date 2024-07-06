@@ -3,15 +3,20 @@ public partial class Extension
 {
     public static PagedList<OrderDto> ToOrderDtoPageList(this PagedList<Order> ordersPageList)
     {
-        return ordersPageList.Select(FromOrderToOrderDtoSelector);
+        return ordersPageList.Select(DtoFromOrder);
     }
 
     public static IEnumerable<OrderDto> ToOrderDtoList(this IEnumerable<Order> orders)
     {
-        return orders.Select(FromOrderToOrderDtoSelector);
+        return orders.Select(DtoFromOrder);
     }
 
-    private static OrderDto FromOrderToOrderDtoSelector(Order order)
+    public static OrderDto ToOrderDto(this Order order)
+    {
+        return DtoFromOrder(order);
+    }
+
+    private static OrderDto DtoFromOrder(Order order)
     {
         return new OrderDto(
               Id: order.Id.Value,

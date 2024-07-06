@@ -1,14 +1,16 @@
-﻿namespace BuildingBlocks.Messaging.Extensions;
+﻿using BuildingBlocks.Messaging.Events.BasketCheckout;
+
+namespace BuildingBlocks.Messaging.Extensions;
 public static partial class Extension
 {
+    public static IServiceCollection AddMessageBroker(this IServiceCollection services)
+    {
+        return services.AddMessageBrokerWithConsumers();
+    }
+
     public static IServiceCollection AddMessageBrokerWithConsumers(this IServiceCollection services, params Assembly[] assemblies)
     {
         return services.AddMessageBroker(assemblies);
-    }
-
-    public static IServiceCollection AddMessageBroker(this IServiceCollection services)
-    {
-        return services.AddMessageBroker();
     }
 
     private static IServiceCollection AddMessageBroker(this IServiceCollection services, params Assembly[] assemblies)

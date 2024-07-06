@@ -1,5 +1,5 @@
 ﻿namespace BuildingBlocks.Messaging.Events.BasketCheckout;
-public partial record BasketCheckoutEvent
+public partial record BasketCheckoutEvent : IntegrationEvent
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

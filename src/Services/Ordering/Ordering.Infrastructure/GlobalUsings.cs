@@ -18,3 +18,4 @@ global using Ordering.Domain.ValueObjects;
 global using Ordering.Infrastructure.Data.Extensions;
 global using Ordering.Infrastructure.Data.Interceptors;
 global using Ordering.Infrastructure.Options;
+global using BuildingBlocks.Messaging.Options;

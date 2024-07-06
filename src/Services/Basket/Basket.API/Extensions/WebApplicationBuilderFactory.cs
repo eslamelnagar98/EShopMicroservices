@@ -11,6 +11,7 @@ public static class WebApplicationBuilderFactory
             .AddIOptions<GrpcSettingsOptions>(GrpcSettingsOptions.SectionName)
             .AddIOptions<MessageBrokerOptions>(MessageBrokerOptions.SectionName)
             .AddBasketServices()
+            .AddHostedService<OutboxProcessorJob>()
             ;
         return builder;
     }

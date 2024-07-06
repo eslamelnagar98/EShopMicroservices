@@ -1,6 +1,4 @@
-﻿using Basket.API.Data.BasketDbData;
-
-namespace Basket.API.Extensions;
+﻿namespace Basket.API.Extensions;
 public partial class Extension
 {
     public static IServiceCollection TryAddInitializeMartenWith<TInitialData>(this WebApplicationBuilder builder) where TInitialData : class, IInitialData
@@ -41,9 +39,6 @@ public partial class Extension
             options.DisableNpgsqlLogging = true;
             options.Schema.For<ShoppingCart>()
                           .Identity(x => x.UserName);
-            var outboxSessionListener = serviceProvider.GetRequiredService<OutboxSessionListener>();
-
-            options.Listeners.Add(outboxSessionListener);
 
             return options;
         }).UseLightweightSessions();
@@ -96,3 +91,4 @@ public partial class Extension
         return services;
     }
 }
+

@@ -1,5 +1,4 @@
 ﻿namespace Ordering.API.Extensions;
-
 public partial class Extension
 {
     public static IServiceCollection AddOrderingServices(this IServiceCollection services)
@@ -15,7 +14,8 @@ public partial class Extension
             .AddFluentValidationClientsideAdapters()
             .AddOrderingHealthChecks()
             .AddMessageBrokerWithConsumers(Assembly.Load("Ordering.Application"))
-            ;
+            .AddFeatureManagement();
+        ;
 
         return services;
     }
