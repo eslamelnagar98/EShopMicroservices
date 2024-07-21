@@ -10,5 +10,9 @@ public class PersistenceSettingsOptionsValidation : AbstractValidator<Persistenc
         RuleFor(p => p.Redis)
             .NotEmpty()
             .WithMessage("Redis Connection Is Required");
+
+        RuleFor(p => p.Cron)
+            .NotEmpty()
+            .WithMessage("Cron Connection Is Required");
     }
 }

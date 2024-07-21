@@ -23,6 +23,7 @@ public partial class Extension
            .AddDiscountGrpcClient()
            .AddMessageBroker()
            .AddRedisConnection()
+           .AddBackgroundJob()
            ;
         return services;
     }
@@ -88,6 +89,21 @@ public partial class Extension
             };
             return handler;
         });
+        return services;
+    }
+
+    private static IServiceCollection AddBackgroundJob(this IServiceCollection services)
+    {
+        services.AddTransient<IProcessOutboxMessagesJob, ProcessOutboxMessagesJob>();
+        services.AddHangfire((serviceProvider, config) =>
+         {
+             var persistenceSettingsOptions = serviceProvider.GetRequiredService<IOptions<PersistenceSettingsOptions>>()?.Value;
+
+             config.UsePostgreSqlStorage(options => options.UseNpgsqlConnection(persistenceSettingsOptions.ConnectionString));
+         });
+
+        services.AddHangfireServer(options => options.SchedulePollingInterval = TimeSpan.FromSeconds(5));
+
         return services;
     }
 }

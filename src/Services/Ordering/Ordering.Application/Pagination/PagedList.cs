@@ -53,7 +53,10 @@ public class PagedList<T>
             pageNumber = 0;
         }
 
-        return await queryable.Skip(pageNumber * pageSize).Take(pageSize).ToListAsync(token).ConfigureAwait(false);
+        return await queryable.Skip(pageNumber * pageSize)
+                              .Take(pageSize)
+                              .ToListAsync(token)
+                              .ConfigureAwait(false);
     }
 }
 
