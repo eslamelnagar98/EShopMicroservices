@@ -7,6 +7,7 @@
 		<UserSecretsId>58a1e56e-636a-425a-94ac-5348141560c9</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>..\..\..</DockerfileContext>
+		<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,6 +30,12 @@
 		<ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
 		<ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
 		<ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="appsettings.DockerCompose.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>

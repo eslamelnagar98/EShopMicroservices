@@ -1,8 +1,8 @@
-﻿
-namespace Basket.API.Data.BasketDbData;
+﻿namespace Basket.API.Data.BasketDbData;
 internal sealed class BasketDbRepository(IDocumentSession session) : IBasketDbRepository
 {
-    public async Task<IReadOnlyList<TEntity>> GetAllDataAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<TEntity>> GetAllDataAsync<TEntity>(Expression<Func<TEntity, bool>> predicate,
+                                                                       CancellationToken cancellationToken = default)
     {
         return await session.Query<TEntity>()
             .Where(predicate)

@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Messaging.Events.BasketCheckout;
-
-namespace BuildingBlocks.Messaging.Extensions;
+﻿namespace BuildingBlocks.Messaging.Extensions;
 public static partial class Extension
 {
     public static IServiceCollection AddMessageBroker(this IServiceCollection services)

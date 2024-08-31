@@ -38,5 +38,4 @@ internal sealed class CachedBasketRepository(IBasketRepository repository, IDist
 
         return basket;
     }
-
 }

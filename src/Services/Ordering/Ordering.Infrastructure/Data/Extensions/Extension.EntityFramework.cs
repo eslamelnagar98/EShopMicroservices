@@ -15,6 +15,7 @@ public static partial class Extension
             var connectionString = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value.ConnectionString;
 
             Options.AddInterceptors(serviceProvider.GetRequiredService<ISaveChangesInterceptor>());
+            Console.WriteLine($"Connection String Is {connectionString}");
 
             Options.UseSqlServer(connectionString);
         });

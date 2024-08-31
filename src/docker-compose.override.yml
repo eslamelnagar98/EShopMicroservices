@@ -99,6 +99,7 @@ services:
       - basketdb
       - distributedcache
       - discount.grpc
+      - messagebroker  
     ports:
       - "6001:8080"
       - "6061:8081"
@@ -107,3 +108,21 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   
+
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerCompose
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/pfx/certificate.pfx
+    depends_on:
+      - orderdb
+      - messagebroker
+    ports:
+      - "6003:8080"
+      - "6063:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro

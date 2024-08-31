@@ -6,12 +6,8 @@ public partial class Extension
     {
         services
             .AddOptionsWithValidateOnStart<TOptions>()
-            .Configure<IConfiguration>(
-            (options, configuration) =>
-             configuration.GetSection(sectionName)
-            .Bind(options))
-            .ValidateFluently()
-            .ValidateOnStart();
+            .BindConfiguration(sectionName)
+            .ValidateFluently();
         return services;
     }
 
@@ -27,8 +23,8 @@ public partial class Extension
     }
 }
 
-public class FluentValidationOptions<TOptions>(IValidator<TOptions> validator) : IValidateOptions<TOptions>
-    where TOptions : class
+public class FluentValidationOptions<TOptions>(IValidator<TOptions> validator) 
+    : IValidateOptions<TOptions> where TOptions : class
 {
     public ValidateOptionsResult Validate(string? name, TOptions options)
     {

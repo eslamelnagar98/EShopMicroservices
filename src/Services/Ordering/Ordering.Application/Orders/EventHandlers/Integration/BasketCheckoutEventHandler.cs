@@ -55,4 +55,3 @@ public class BasketCheckoutEventHandler(ISender sender, ILogger<BasketCheckoutEv
                     message.PaymentMethod);
     }
 }
-

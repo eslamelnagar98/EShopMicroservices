@@ -1,5 +1,5 @@
 ﻿namespace Basket.API.Jobs;
-public class ProcessOutboxMessagesJob(IServiceProvider serviceProvider, ILogger<OutboxProcessorJob> logger) : IProcessOutboxMessagesJob
+public class ProcessOutboxMessagesJob(IServiceProvider serviceProvider, ILogger<ProcessOutboxMessagesJob> logger) : IProcessOutboxMessagesJob
 {
     [DisableConcurrentExecution(timeoutInSeconds: 300)]
     public async Task ProcessMessageAsync(CancellationToken stoppingToken)
@@ -26,10 +26,7 @@ public class ProcessOutboxMessagesJob(IServiceProvider serviceProvider, ILogger<
     {
         var eventType = GetEventType(message.Type);
 
-        if (eventType is null)
-        {
-            return;
-        }
+        if (eventType is null) return;
 
         var @event = DeserializeEvent(message.Payload, eventType);
 
@@ -63,10 +60,8 @@ public class ProcessOutboxMessagesJob(IServiceProvider serviceProvider, ILogger<
 
     private async Task PublishEvent(object @event, IPublishEndpoint publishEndpoint, CancellationToken stoppingToken)
     {
-        if (@event == null)
-        {
+        if (@event == null) 
             throw new Exception("Event is null");
-        }
 
         await publishEndpoint.Publish(@event, stoppingToken);
     }
