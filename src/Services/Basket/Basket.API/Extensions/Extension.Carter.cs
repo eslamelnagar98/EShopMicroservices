@@ -3,11 +3,11 @@ public partial class Extension
 {
     public static IServiceCollection AddCarterWithAssemblies(this IServiceCollection services, params Assembly[] assemblies)
     {
-        services.AddCarter(configurator: carterConfigurator =>
+       return services.AddCarter(configurator: carterConfigurator =>
         {
-            var modules = assemblies.SelectMany(assembly => 
+            var modules = assemblies.SelectMany(assembly =>
                                      assembly.GetTypes()
-                                             .Where(type =>!type.IsAbstract &&
+                                             .Where(type => !type.IsAbstract &&
                                                     typeof(ICarterModule).IsAssignableFrom(type) &&
                                                     type != typeof(ICarterModule) &&
                                                     type.IsPublic))
@@ -15,7 +15,6 @@ public partial class Extension
 
             carterConfigurator.WithModules(modules);
         });
-        return services;
     }
 }
 

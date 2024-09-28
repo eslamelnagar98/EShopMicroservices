@@ -25,3 +25,8 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --buil
 ```csharp
 docker-compose -f docker-compose.yml -f docker-compose.override.yml down
 ```
+# For Docker Desktop Starting Server Issue Run 
+
+```csharp
+wsl --unregister docker-desktop
+```

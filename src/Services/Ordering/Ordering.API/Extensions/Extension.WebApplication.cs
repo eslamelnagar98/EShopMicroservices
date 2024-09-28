@@ -1,5 +1,4 @@
 ﻿namespace Ordering.API.Extensions;
-
 public static partial class Extension
 {
     public static async Task<WebApplication> UseOrderingMiddlewaresAsync(this WebApplication app)

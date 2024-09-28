@@ -1,5 +1,4 @@
 ﻿namespace Ordering.API.Extensions;
-
 public partial class Extension
 {
     public static IServiceCollection AddCarterWithAssemblies(this IServiceCollection services,
@@ -9,11 +8,11 @@ public partial class Extension
         {
             var modules = assemblies.SelectMany(assembly =>
                     assembly.GetTypes()
-                        .Where(type => !type.IsAbstract &&
-                                       typeof(ICarterModule).IsAssignableFrom(type) &&
-                                       type != typeof(ICarterModule) &&
-                                       type.IsPublic))
-                .ToArray();
+                            .Where(type => !type.IsAbstract &&
+                                   typeof(ICarterModule).IsAssignableFrom(type) &&
+                                   type != typeof(ICarterModule) &&
+                                   type.IsPublic))
+                            .ToArray();
 
             carterConfigurator.WithModules(modules);
         });

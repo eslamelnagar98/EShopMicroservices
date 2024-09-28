@@ -23,8 +23,7 @@ public partial class Extension
     private static IServiceCollection AddOrderingHealthChecks(this IServiceCollection services)
     {
         services.AddHealthChecks()
-            .AddSqlServer((serviceProvider) =>
-                serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value.ConnectionString);
+                .AddSqlServer((serviceProvider) => serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>()?.Value.ConnectionString);
         return services;
     }
 
