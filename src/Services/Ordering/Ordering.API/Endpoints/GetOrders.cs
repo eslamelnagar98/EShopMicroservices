@@ -1,5 +1,4 @@
 ﻿namespace Ordering.API.Endpoints;
-
 public record GetOrdersResponse(PagedList<OrderDto> Orders);
 
 public class GetOrders : ICarterModule
